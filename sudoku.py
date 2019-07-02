@@ -9,7 +9,7 @@ class Sudoku:
     self.numClms = 9
     self.numRows = 9
 
-  def getBlankBoard(self):
+  def createBlankBoard(self):
     """getBlankBoard()
 
       return:
@@ -42,11 +42,17 @@ class Sudoku:
     """
     row, clm = point
 
-    row_end   = ceil( (row+1) / 3) * 3
+    row_end = ceil( (row+1) / 3) * 3
+    clm_end = ceil( (clm+1) / 3) * 3
+    
     row_start = row_end - 3
-    clm_end   = ceil( (clm+1) / 3) * 3
     clm_start = clm_end - 3
-    square = [(r,c) for r in range(row_start, row_end) for c in range(clm_start, clm_end)]
+    
+    square = []
+
+    for r in range(row_start, row_end):
+      for c in range(clm_start, clm_end):
+        square.append( (r,c) )
 
     return square
 
