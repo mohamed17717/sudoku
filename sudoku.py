@@ -72,8 +72,39 @@ class Sudoku:
 
     return set(inRow + inClm + inSquare).remove(point)
 
-  def getLessPosibilityPoint(self, board):
+  def getLessPosibilityPoint(self, map):
     pass
+
+  def getRemainingChoices(self, board, point):
+    choices = [i for i in range(1, self.numRows + 1)]
+
+    relatedPoints = self.getRelatedPoints(point)
+    
+    # row, clm = point
+    # assert not board[row][clm], 'you get choices for a point which is already have value.'
+
+    for relatedPoint in relatedPoints:
+      row, clm = relatedPoint
+      value = board[row][clm]
+      if value:
+        choices.remove(value) ## if error happen then its not valid board
+
+    assert choices, 'choices is empty, and this is envalid board'
+    return choices
+
+  def createPossibleMap(self, board):
+    possibleMap = {}
+
+    blankPoints = self.getBlankPoints(board)
+    for point in blankPoints:
+      choices = self.getRemainingChoices(board, point)
+
+      possibleMap[point] = {
+        'choices': choices,
+        'length': len(choices)
+      }
+
+    return possibleMap
 
   def generate(self):
     pass
