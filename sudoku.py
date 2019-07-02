@@ -72,7 +72,10 @@ class Sudoku:
     inRow = [(i, clm) for i in range(self.numRows)]
     inSquare = self.getPointSquare(point)
 
-    return set(inRow + inClm + inSquare).remove(point)
+    relatedPoints = set(inRow + inClm + inSquare)
+    relatedPoints.remove(point)
+
+    return relatedPoints
 
   def getRemainingChoices(self, board, point):
     choices = [i for i in range(1, self.numRows + 1)]
@@ -138,17 +141,24 @@ class Sudoku:
     board = self.createBlankBoard()
     possibleMap = self.createPossibleMap(board)
 
-    for i in range(len(possibleMap)):
-      point = self.getLessPosibilityPoint(possibleMap)
-      value = possibleMap.pop(point)
-      choices = value['choices']
-      choice = random.choice(choices)
+    try:
+      for i in range(len(possibleMap)):
+        point = self.getLessPosibilityPoint(possibleMap)
+        value = possibleMap.pop(point)
+        choices = value['choices']
+        choice = random.choice(choices)
 
-      row, clm = point
+        row, clm = point
 
-      board[row][clm] = choice
+        board[row][clm] = choice
 
-      possibleMap = self.affectRelatedPoints(possibleMap, point, choice)
-
+        possibleMap = self.affectRelatedPoints(possibleMap, point, choice)
+    except AssertionError:
+      print('this is exception')
+      return self.generateBoard()
     return board
 
+from pprint import pprint
+if __name__ == '__main__':
+  s = Sudoku()
+  pprint(s.generateBoard())
