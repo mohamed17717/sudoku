@@ -119,6 +119,21 @@ class Sudoku:
     
     return point
 
+  def affectRelatedPoints(self, possibleMap, point, number):
+    relatedPoints = self.getRelatedPoints(point)
+    for relatedPoint in relatedPoints:
+      data = possibleMap.get(relatedPoint)
+      if data:
+        try:
+          data['choices'].remove(number)
+          data['length'] -= 1
+          assert data['length'] != 0, 'board will be not valid'
+        except: pass
+
+        possibleMap[relatedPoint] = data
+
+    return possibleMap
+
   def generateBoard(self):
     board = self.createBlankBoard()
     possibleMap = self.createPossibleMap(board)
