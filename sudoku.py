@@ -6,6 +6,8 @@ class Sudoku:
   """ generate and solve sudoku game """
 
   ## TODO: put related points in the possibleMap, to save process
+  ## TODO; generate game
+  ## TODO; solve board
 
   def __init__ (self):
     self.numClms = 9
