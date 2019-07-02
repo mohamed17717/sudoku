@@ -78,7 +78,7 @@ class Sudoku:
     return relatedPoints
 
   def getRemainingChoices(self, board, point):
-    choices = [i for i in range(1, self.numRows + 1)]
+    choices = range(1, self.numRows + 1)
 
     relatedPoints = self.getRelatedPoints(point)
     
@@ -157,6 +157,15 @@ class Sudoku:
       print('this is exception')
       return self.generateBoard()
     return board
+
+  def generateGame(self):
+    ...
+
+  def validateBoard(self):
+    ...
+
+  def solveBoard(self):
+    ...
 
 from pprint import pprint
 if __name__ == '__main__':
