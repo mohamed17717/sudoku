@@ -44,7 +44,7 @@ class Sudoku:
 
     row_end = ceil( (row+1) / 3) * 3
     clm_end = ceil( (clm+1) / 3) * 3
-    
+
     row_start = row_end - 3
     clm_start = clm_end - 3
     
@@ -68,10 +68,9 @@ class Sudoku:
 
     inClm = [(row, i) for i in range(self.numClms)]
     inRow = [(i, clm) for i in range(self.numRows)]
-
     inSquare = self.getPointSquare(point)
 
-    return set(inRow + inClm + inSquare)
+    return set(inRow + inClm + inSquare).remove(point)
 
   def getLessPosibilityPoint(self, board):
     pass
