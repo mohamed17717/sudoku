@@ -5,6 +5,8 @@ from math import ceil
 class Sudoku:
   """ generate and solve sudoku game """
 
+  ## TODO: put related points in the possibleMap, to save process
+
   def __init__ (self):
     self.numClms = 9
     self.numRows = 9
@@ -72,21 +74,6 @@ class Sudoku:
 
     return set(inRow + inClm + inSquare).remove(point)
 
-  def getLessPosibilityPoint(self, possibleMap):
-    point = None
-    possible = 10
-
-    for p, value in possibleMap.items():
-      pPossibles = value['length']
-      assert pPossibles != 0, 'possible some where === 0, its invalid board'
-      
-      if pPossibles < possible:
-        point = p
-        possible = pPossibles
-    
-    return point
-
-
   def getRemainingChoices(self, board, point):
     choices = [i for i in range(1, self.numRows + 1)]
 
@@ -118,5 +105,20 @@ class Sudoku:
 
     return possibleMap
 
-  def generate(self):
-    pass
+  def getLessPosibilityPoint(self, possibleMap):
+    point = None
+    possible = 10
+
+    for p, value in possibleMap.items():
+      pPossibles = value['length']
+      assert pPossibles != 0, 'possible some where === 0, its invalid board'
+      
+      if pPossibles < possible:
+        point = p
+        possible = pPossibles
+    
+    return point
+
+  def generateBoard(self):
+    board = self.createBlankBoard()
+
