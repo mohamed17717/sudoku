@@ -1,6 +1,6 @@
 
 from math import ceil
-
+import random
 
 class Sudoku:
   """ generate and solve sudoku game """
@@ -121,4 +121,19 @@ class Sudoku:
 
   def generateBoard(self):
     board = self.createBlankBoard()
+    possibleMap = self.createPossibleMap(board)
+
+    for i in range(len(possibleMap)):
+      point = self.getLessPosibilityPoint(possibleMap)
+      value = possibleMap.pop(point)
+      choices = value['choices']
+      choice = random.choice(choices)
+
+      row, clm = point
+
+      board[row][clm] = choice
+
+      possibleMap = self.affectRelatedPoints(possibleMap, point, choice)
+
+    return board
 
