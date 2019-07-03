@@ -162,8 +162,20 @@ class Sudoku:
       return self.generateBoard()
     return board
 
-  def generateGame(self):
-    ...
+  def generateGame(self, blankNum):
+    # max blank == 50
+    assert blankNum <= 50, 'max blank points is 50'
+    board = self.generateBoard()
+    assert self.validateBoard(board), 'error while creating the board'
+
+    for i in range(blankNum):
+      row = random.randint(0, 9-1)
+      clm = random.randint(0, 9-1)
+
+      board[row][clm] = 0
+
+    return board
+
 
   def extractClms(self, board):
     clms = [[] for i in range(len(board[0]))]
@@ -235,11 +247,11 @@ class Sudoku:
 from pprint import pprint
 if __name__ == '__main__':
   s = Sudoku()
-  board = s.generateBoard()
-  pprint(board)
-  print('\n\n')
-  pprint(s.validateBoard(board))
-  print('\n\n')
+  # board = s.generateBoard()
+  # pprint(board)
+  # print('\n\n')
+  # pprint(s.validateBoard(board))
+  # print('\n\n')
   solved = [
     [1, 4, 2, 3, 5, 7, 9, 8, 6],
     [8, 5, 6, 1, 9, 4, 3, 2, 7],
@@ -262,4 +274,10 @@ if __name__ == '__main__':
     [6, 8, 3, 7, 1, 9, 2, 4, 0],
     [5, 2, 1, 4, 8, 3, 6, 7, 9]
   ]
-  pprint(s.solveBoard(b) == solved)
+  # pprint(s.solveBoard(b) == solved)
+  game = s.generateGame(50)
+  pprint(game)
+  print()
+  solve = s.solveBoard(game)
+  pprint(solve)
+  print(s.validateBoard(solve))
