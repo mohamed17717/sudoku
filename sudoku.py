@@ -9,6 +9,7 @@ class Sudoku:
   ## TODO: generate game
   ## TODO: solve board
   ## TODO: split to classes
+  ## TODO: add Comments
 
   def __init__ (self):
     self.numClms = 9
@@ -91,7 +92,7 @@ class Sudoku:
     for relatedPoint in relatedPoints:
       row, clm = relatedPoint
       value = board[row][clm]
-      if value:
+      if value and value in choices:
         choices.remove(value) ## if error happen then its not valid board
 
     assert choices, 'choices is empty, and this is envalid board'
@@ -212,8 +213,24 @@ class Sudoku:
 
     return True
 
-  def solveBoard(self):
-    ...
+  def solveBoard(self, board):
+    possibleMap = self.createPossibleMap(board)
+
+    for i in range(len(possibleMap)):
+      point = self.getLessPosibilityPoint(possibleMap)
+      value = possibleMap.pop(point)
+      choices = value['choices']
+      choice = random.choice(choices)
+
+      row, clm = point
+
+      board[row][clm] = choice
+
+      possibleMap = self.affectRelatedPoints(possibleMap, point, choice)
+
+    return board
+
+
 
 from pprint import pprint
 if __name__ == '__main__':
@@ -222,4 +239,27 @@ if __name__ == '__main__':
   pprint(board)
   print('\n\n')
   pprint(s.validateBoard(board))
-  # print('\n\n')
+  print('\n\n')
+  solved = [
+    [1, 4, 2, 3, 5, 7, 9, 8, 6],
+    [8, 5, 6, 1, 9, 4, 3, 2, 7],
+    [3, 9, 7, 8, 2, 6, 1, 5, 4],
+    [9, 3, 8, 5, 7, 1, 4, 6, 2],
+    [2, 6, 5, 9, 4, 8, 7, 3, 1],
+    [7, 1, 4, 6, 3, 2, 5, 9, 8],
+    [4, 7, 9, 2, 6, 5, 8, 1, 3],
+    [6, 8, 3, 7, 1, 9, 2, 4, 5],
+    [5, 2, 1, 4, 8, 3, 6, 7, 9]
+  ]
+  b = [
+    [1, 0, 2, 3, 5, 0, 9, 8, 6],
+    [8, 5, 6, 0, 9, 4, 3, 2, 7],
+    [3, 9, 7, 8, 2, 6, 1, 5, 4],
+    [9, 3, 8, 5, 7, 1, 4, 6, 2],
+    [2, 6, 5, 9, 4, 0, 7, 3, 1],
+    [7, 1, 4, 0, 3, 2, 5, 0, 8],
+    [4, 7, 9, 2, 6, 5, 8, 1, 3],
+    [6, 8, 3, 7, 1, 9, 2, 4, 0],
+    [5, 2, 1, 4, 8, 3, 6, 7, 9]
+  ]
+  pprint(s.solveBoard(b) == solved)
