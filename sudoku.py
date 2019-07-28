@@ -110,6 +110,9 @@ class Board:
         squares.append(square)
     return squares
 
+class SudokuValidation(Board):
+  ...
+
 
 class Sudoku (Board):
   """ generate and solve sudoku game """
