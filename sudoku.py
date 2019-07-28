@@ -83,6 +83,13 @@ class Board:
     return blanks
 
 
+  def getBoardClms(self, board):
+    clms = [[] for i in range(len(board[0]))]
+    for row in board:
+      for i, clm in enumerate(row):
+        clms[i].append(clm)
+    return clms
+
 
 
 class Sudoku (Board):
@@ -197,14 +204,6 @@ class Sudoku (Board):
         board = self.generateGame(blankNum)
     return board
 
-
-  def extractClms(self, board):
-    clms = [[] for i in range(len(board[0]))]
-    for row in board:
-      for i, clm in enumerate(row):
-        clms[i].append(clm)
-    return clms
-
   def extractSquares(self, board):
     squares = []
 
@@ -237,7 +236,7 @@ class Sudoku (Board):
     if not self.validateRows(rows): return False
 
     # validate clms
-    clms = self.extractClms(board)
+    clms = self.getBoardClms(board)
     if not self.validateRows(clms): return False
 
     # validate squares
