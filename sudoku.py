@@ -237,13 +237,14 @@ class Sudoku (SudokuValidation):
 
     return board
 
-from pprint import pprint
-sudoku = Sudoku()
-game = sudoku.generateGame(50)
-pprint(game)
+if __name__ == '__main__':
+  from pprint import pprint
+  sudoku = Sudoku()
+  game = sudoku.generateGame(blankNum=50)
+  pprint(game)
 
-# solved = sudoku.solveBoard(game)
-# pprint(solved)
+  solved = sudoku.solveBoard(game)
+  pprint(solved)
 
-# v = SudokuValidation()
-# print(f'valid: {v.validateBoard(solved)}')
+  v = SudokuValidation()
+  print(f'valid: {v.validateBoard(solved)}')
