@@ -213,10 +213,13 @@ class Sudoku (SudokuValidation):
     for i in range(blankNum):
       row, clm = random.randint(1, 9)-1, random.randint(1, 9)-1
       board[row][clm] = 0
-
+    
     try : 
-      self.solveBoard(board)
-    except: board = self.generateGame(blankNum)
+      b = [i.copy() for i in board]
+      self.solveBoard(b)
+    except: 
+      return self.generateGame(blankNum)
+
     return board
 
   def solveBoard(self, board):
@@ -234,8 +237,13 @@ class Sudoku (SudokuValidation):
 
     return board
 
-s = Sudoku()
-v = SudokuValidation()
-game = s.generateGame(40)
-game = s.createBlankBoard()
-print(v.validateBoard(s.solveBoard(game)))
+from pprint import pprint
+sudoku = Sudoku()
+game = sudoku.generateGame(50)
+pprint(game)
+
+# solved = sudoku.solveBoard(game)
+# pprint(solved)
+
+# v = SudokuValidation()
+# print(f'valid: {v.validateBoard(solved)}')
