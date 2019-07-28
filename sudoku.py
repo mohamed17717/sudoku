@@ -16,6 +16,14 @@ class Board:
     """
     return [[self.blank for clm in range(self.numClms)] for row in range(self.numRows)]
 
+  def getPointRow(self, point):
+    row, clm = point
+    return [(row, clm) for clm in range(self.numClms)]
+
+  def getPointClm(self, point):
+    row, clm = point
+    return [(row, clm) for row in range(self.numRows)]
+
   def getPointSquare(self, point):
     """getPointSquare(point)
 
@@ -50,8 +58,8 @@ class Board:
     """
     row, clm = point
 
-    inClm = [(row, i) for i in range(self.numClms)]
-    inRow = [(i, clm) for i in range(self.numRows)]
+    inClm = self.getPointClm(point)
+    inRow = self.getPointRow(point)
     inSquare = self.getPointSquare(point)
 
     relatedPoints = set(inRow + inClm + inSquare)
