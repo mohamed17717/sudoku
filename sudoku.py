@@ -111,10 +111,29 @@ class Board:
     return squares
 
 class SudokuValidation(Board):
-  ...
+  def checkRules(self, arr):
+    minimum = min(arr) == 1
+    maximum = max(arr) == 9
+    summition = sum(arr) == 45
+    length = len(set(arr)) == len(arr) == 9
+    return all([minimum, maximum, summition, length])
+
+  def checkLoop(self, items):
+    for item in items:
+      if not self.checkRules(item): 
+        return False
+    return True
+
+  def validateBoard(self, board):
+    # validate rows
+    for func in [self.getBoardRows, self.getBoardClms, self.getBoardSquares]:
+      items = func(board)
+      if not self.checkLoop(items): return False
+    return True
 
 
-class Sudoku (Board):
+
+class Sudoku (SudokuValidation, Board):
   """ generate and solve sudoku game """
 
   ## TODO: put related points in the possibleMap, to save processgit
@@ -226,29 +245,6 @@ class Sudoku (Board):
         board = self.generateGame(blankNum)
     return board
 
-  def validateTheNine(self, arr):
-    return len(set(arr)) == len(arr) == 9 and sum(arr) == 45
-
-  def validateRows(self, rows):
-    for row in rows:
-      if not self.validateTheNine(row): 
-        return False
-    return True
-
-  def validateBoard(self, board):
-    # validate rows
-    rows = self.getBoardRows(board)
-    if not self.validateRows(rows): return False
-
-    # validate clms
-    clms = self.getBoardClms(board)
-    if not self.validateRows(clms): return False
-
-    # validate squares
-    squares = self.getBoardSquares(board)
-    if not self.validateRows(squares): return False
-
-    return True
 
   def solveBoard(self, board):
     possibleMap = self.createPossibleMap(board)
@@ -268,5 +264,6 @@ class Sudoku (Board):
     return board
 
 s = Sudoku()
+v = SudokuValidation()
 game = s.generateGame(40)
-print(s.solveBoard(game))
+print(v.validateBoard(s.solveBoard(game)))
