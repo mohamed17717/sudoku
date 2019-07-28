@@ -110,6 +110,7 @@ class Board:
         squares.append(square)
     return squares
 
+
 class SudokuValidation(Board):
   def checkRules(self, arr):
     minimum = min(arr) == 1
@@ -132,15 +133,8 @@ class SudokuValidation(Board):
     return True
 
 
-
-class Sudoku (SudokuValidation, Board):
+class Sudoku (SudokuValidation):
   """ generate and solve sudoku game """
-
-  ## TODO: put related points in the possibleMap, to save processgit
-
-  ## TODO: split to classes
-  
-  ## TODO: add Comments
 
   def getRemainingChoices(self, board, point):
     choices = list(range(1, self.numRows + 1))
@@ -150,7 +144,7 @@ class Sudoku (SudokuValidation, Board):
     for relatedPoint in relatedPoints:
       row, clm = relatedPoint
       value = board[row][clm]
-      if value and value in choices:
+      if value in choices:
         choices.remove(value)
 
     assert choices, 'choices is empty, and this is invalid board'
@@ -188,15 +182,11 @@ class Sudoku (SudokuValidation, Board):
     relatedPoints = self.getRelatedPoints(point)
     for relatedPoint in relatedPoints:
       data = possibleMap.get(relatedPoint)
-      if data:
-        try:
-          data['choices'].remove(number)
-          data['length'] -= 1
-          assert data['length'] != 0, 'board will be not valid'
-        except: pass
-
+      try:
+        data['choices'].remove(number)
+        data['length'] -= 1
         possibleMap[relatedPoint] = data
-
+      except: pass
     return possibleMap
 
   def generateBoard(self):
@@ -240,7 +230,6 @@ class Sudoku (SudokuValidation, Board):
       except:
         board = self.generateGame(blankNum)
     return board
-
 
   def solveBoard(self, board):
     possibleMap = self.createPossibleMap(board)
