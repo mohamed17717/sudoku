@@ -197,38 +197,26 @@ class Sudoku (SudokuValidation):
       for i in range(len(possibleMap)):
         point = self.getLessPosibilityPoint(possibleMap)
         value = possibleMap.pop(point)
-        choices = value['choices']
-        choice = random.choice(choices)
+        choice = random.choice(value['choices'])
 
         row, clm = point
-
         board[row][clm] = choice
 
         possibleMap = self.affectRelatedPoints(possibleMap, point, choice)
-    except AssertionError:
-      # print('this is exception')
-      return self.generateBoard()
+    except: return self.generateBoard()
     return board
 
   def generateGame(self, blankNum):
-    # max blank == 50
     assert blankNum <= 50, 'max blank points is 50'
     board = self.generateBoard()
-    assert self.validateBoard(board), 'error while creating the board'
 
     for i in range(blankNum):
-      row = random.randint(0, 9-1)
-      clm = random.randint(0, 9-1)
-
+      row, clm = random.randint(1, 9)-1, random.randint(1, 9)-1
       board[row][clm] = 0
 
-    validBoard = False
-    while not validBoard:
-      try : 
-        self.solveBoard(board)
-        validBoard = True
-      except:
-        board = self.generateGame(blankNum)
+    try : 
+      self.solveBoard(board)
+    except: board = self.generateGame(blankNum)
     return board
 
   def solveBoard(self, board):
@@ -237,11 +225,9 @@ class Sudoku (SudokuValidation):
     for i in range(len(possibleMap)):
       point = self.getLessPosibilityPoint(possibleMap)
       value = possibleMap.pop(point)
-      choices = value['choices']
-      choice = random.choice(choices)
+      choice = random.choice(value['choices'])
 
       row, clm = point
-
       board[row][clm] = choice
 
       possibleMap = self.affectRelatedPoints(possibleMap, point, choice)
@@ -251,4 +237,5 @@ class Sudoku (SudokuValidation):
 s = Sudoku()
 v = SudokuValidation()
 game = s.generateGame(40)
+game = s.createBlankBoard()
 print(v.validateBoard(s.solveBoard(game)))
