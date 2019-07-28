@@ -82,6 +82,9 @@ class Board:
           blanks.append( (row, clm) )
     return blanks
 
+  def getBoardRows(self, board):
+    rows = board
+    return rows
 
   def getBoardClms(self, board):
     clms = [[] for i in range(len(board[0]))]
@@ -90,6 +93,22 @@ class Board:
         clms[i].append(clm)
     return clms
 
+  def getBoardSquares(self, board):
+    squares = []
+
+    # index for all middle points always changes between those 3 nums
+    # ex: (1,1) (1,4) (1,7) (4,1) etc...
+    x = [1, 4, 7]
+    for i in x:
+      for j in x:
+        middleSquareIndex = (i , j)
+        # convert the point to its value
+        square = []
+        for point in self.getPointSquare(middleSquareIndex):
+          row,clm = point
+          square.append(board[row][clm])
+        squares.append(square)
+    return squares
 
 
 class Sudoku (Board):
@@ -204,23 +223,6 @@ class Sudoku (Board):
         board = self.generateGame(blankNum)
     return board
 
-  def extractSquares(self, board):
-    squares = []
-
-    # index for all middle points always changes between those 3 nums
-    # ex: (1,1) (1,4) (1,7) (4,1) etc...
-    x = [1, 4, 7]
-    for i in x:
-      for j in x:
-        middleSquareIndex = (i , j)
-        # convert the point to its value
-        square = []
-        for point in self.getPointSquare(middleSquareIndex):
-          row,clm = point
-          square.append(board[row][clm])
-        squares.append(square)
-    return squares
-
   def validateTheNine(self, arr):
     return len(set(arr)) == len(arr) == 9 and sum(arr) == 45
 
@@ -232,7 +234,7 @@ class Sudoku (Board):
 
   def validateBoard(self, board):
     # validate rows
-    rows = board
+    rows = self.getBoardRows(board)
     if not self.validateRows(rows): return False
 
     # validate clms
@@ -240,7 +242,7 @@ class Sudoku (Board):
     if not self.validateRows(clms): return False
 
     # validate squares
-    squares = self.extractSquares(board)
+    squares = self.getBoardSquares(board)
     if not self.validateRows(squares): return False
 
     return True
