@@ -146,18 +146,14 @@ class Sudoku (SudokuValidation, Board):
     choices = list(range(1, self.numRows + 1))
 
     relatedPoints = self.getRelatedPoints(point)
-    
-    # row, clm = point
-    # assert not board[row][clm], 
-    # 'you get choices for a point which is already have value.'
 
     for relatedPoint in relatedPoints:
       row, clm = relatedPoint
       value = board[row][clm]
       if value and value in choices:
-        choices.remove(value) ## if error happen then its not valid board
+        choices.remove(value)
 
-    assert choices, 'choices is empty, and this is envalid board'
+    assert choices, 'choices is empty, and this is invalid board'
     return choices
 
   def createPossibleMap(self, board):
