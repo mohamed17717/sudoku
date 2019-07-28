@@ -5,9 +5,7 @@ import random
 class Sudoku:
   """ generate and solve sudoku game """
 
-  ## TODO: put related points in the possibleMap, to save process
-  ## TODO: generate game
-  ## TODO: solve board
+  ## TODO: put related points in the possibleMap, to save processgit
   ## TODO: split to classes
   ## TODO: add Comments
 
@@ -87,7 +85,8 @@ class Sudoku:
     relatedPoints = self.getRelatedPoints(point)
     
     # row, clm = point
-    # assert not board[row][clm], 'you get choices for a point which is already have value.'
+    # assert not board[row][clm], 
+    # 'you get choices for a point which is already have value.'
 
     for relatedPoint in relatedPoints:
       row, clm = relatedPoint
@@ -158,7 +157,7 @@ class Sudoku:
 
         possibleMap = self.affectRelatedPoints(possibleMap, point, choice)
     except AssertionError:
-      print('this is exception')
+      # print('this is exception')
       return self.generateBoard()
     return board
 
@@ -174,6 +173,13 @@ class Sudoku:
 
       board[row][clm] = 0
 
+    validBoard = False
+    while not validBoard:
+      try : 
+        self.solveBoard(board)
+        validBoard = True
+      except:
+        board = self.generateGame(blankNum)
     return board
 
 
@@ -247,37 +253,45 @@ class Sudoku:
 from pprint import pprint
 if __name__ == '__main__':
   s = Sudoku()
+
+  # print('Generate Sudoku board')
   # board = s.generateBoard()
   # pprint(board)
-  # print('\n\n')
-  # pprint(s.validateBoard(board))
-  # print('\n\n')
-  solved = [
-    [1, 4, 2, 3, 5, 7, 9, 8, 6],
-    [8, 5, 6, 1, 9, 4, 3, 2, 7],
-    [3, 9, 7, 8, 2, 6, 1, 5, 4],
-    [9, 3, 8, 5, 7, 1, 4, 6, 2],
-    [2, 6, 5, 9, 4, 8, 7, 3, 1],
-    [7, 1, 4, 6, 3, 2, 5, 9, 8],
-    [4, 7, 9, 2, 6, 5, 8, 1, 3],
-    [6, 8, 3, 7, 1, 9, 2, 4, 5],
-    [5, 2, 1, 4, 8, 3, 6, 7, 9]
-  ]
-  b = [
-    [1, 0, 2, 3, 5, 0, 9, 8, 6],
-    [8, 5, 6, 0, 9, 4, 3, 2, 7],
-    [3, 9, 7, 8, 2, 6, 1, 5, 4],
-    [9, 3, 8, 5, 7, 1, 4, 6, 2],
-    [2, 6, 5, 9, 4, 0, 7, 3, 1],
-    [7, 1, 4, 0, 3, 2, 5, 0, 8],
-    [4, 7, 9, 2, 6, 5, 8, 1, 3],
-    [6, 8, 3, 7, 1, 9, 2, 4, 0],
-    [5, 2, 1, 4, 8, 3, 6, 7, 9]
-  ]
-  # pprint(s.solveBoard(b) == solved)
-  game = s.generateGame(50)
-  pprint(game)
-  print()
-  solve = s.solveBoard(game)
-  pprint(solve)
-  print(s.validateBoard(solve))
+
+  # print('Validate this Board')
+  # if s.validateBoard(board):
+  #   print('Board is valid')
+  # else: 
+  #   print('Board is not valid')
+
+  # print('Generate real game:')
+  # game = s.generateGame(50)
+  # pprint(game)
+  # print('Solve the game:')
+  # solve = s.solveBoard(game)
+  # pprint(solve)
+  # print('Validate the solved board: ', s.validateBoard(solve))
+
+
+  error = 0
+  for i in range(100):
+    game = s.generateGame(40)
+    try: s.solveBoard(game)
+    except:
+      print(game)
+      error += 1
+
+  print(error)
+
+  # b = [
+  #   [2, 6, 4, 3, 8, 7, 1, 9, 5], 
+  #   [7, 5, 3, 1, 9, 6, 8, 4, 2], 
+  #   [9, 8, 1, 5, 4, 2, 7, 3, 6], 
+  #   [8, 1, 5, 9, 2, 3, 6, 7, 4], 
+  #   [3, 7, 9, 6, 1, 4, 5, 2, 0], 
+  #   [0, 0, 0, 8, 0, 0, 9, 0, 0], 
+  #   [1, 0, 0, 0, 3, 8, 0, 6, 9], 
+  #   [6, 0, 8, 7, 5, 9, 0, 1, 0], 
+  #   [0, 9, 0, 0, 6, 1, 0, 8, 7]
+  # ]
+  # print(s.solveBoard(b))
