@@ -42,7 +42,6 @@ Classes that help in create sudoku game, solve or validate.
 valid: True
 ```
 
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
