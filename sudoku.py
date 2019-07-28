@@ -2,16 +2,11 @@
 from math import ceil
 import random
 
-class Sudoku:
-  """ generate and solve sudoku game """
-
-  ## TODO: put related points in the possibleMap, to save processgit
-  ## TODO: split to classes
-  ## TODO: add Comments
-
-  def __init__ (self):
-    self.numClms = 9
-    self.numRows = 9
+class Board:
+  """ Contain abstracted methods """
+  numClms = 9
+  numRows = 9
+  blank = 0
 
   def createBlankBoard(self):
     """getBlankBoard()
@@ -19,22 +14,7 @@ class Sudoku:
       return:
         9*9 board with blank boxes
     """
-    return [[0 for clm in range(self.numClms)] for row in range(self.numRows)]
-
-  def getBlankPoints(self, board):
-    """getBlankPoints(board) --> get blank points form a board
-    
-      Parameters:
-        board: 9*9 board
-      return:
-        indexes of blank points
-    """
-    blanks = []
-    for row in range(self.numRows):
-      for clm in range(self.numClms):
-        if not board[row][clm]:
-          blanks.append( (row, clm) )
-    return blanks
+    return [[self.blank for clm in range(self.numClms)] for row in range(self.numRows)]
 
   def getPointSquare(self, point):
     """getPointSquare(point)
@@ -78,6 +58,33 @@ class Sudoku:
     relatedPoints.remove(point)
 
     return relatedPoints
+
+
+
+
+class Sudoku (Board):
+  """ generate and solve sudoku game """
+
+  ## TODO: put related points in the possibleMap, to save processgit
+
+  ## TODO: split to classes
+  
+  ## TODO: add Comments
+
+  def getBlankPoints(self, board):
+    """getBlankPoints(board) --> get blank points form a board
+    
+      Parameters:
+        board: 9*9 board
+      return:
+        indexes of blank points
+    """
+    blanks = []
+    for row in range(self.numRows):
+      for clm in range(self.numClms):
+        if not board[row][clm]:
+          blanks.append( (row, clm) )
+    return blanks
 
   def getRemainingChoices(self, board, point):
     choices = list(range(1, self.numRows + 1))
@@ -248,50 +255,6 @@ class Sudoku:
 
     return board
 
-
-
-from pprint import pprint
-if __name__ == '__main__':
-  s = Sudoku()
-
-  # print('Generate Sudoku board')
-  # board = s.generateBoard()
-  # pprint(board)
-
-  # print('Validate this Board')
-  # if s.validateBoard(board):
-  #   print('Board is valid')
-  # else: 
-  #   print('Board is not valid')
-
-  # print('Generate real game:')
-  # game = s.generateGame(50)
-  # pprint(game)
-  # print('Solve the game:')
-  # solve = s.solveBoard(game)
-  # pprint(solve)
-  # print('Validate the solved board: ', s.validateBoard(solve))
-
-
-  error = 0
-  for i in range(100):
-    game = s.generateGame(40)
-    try: s.solveBoard(game)
-    except:
-      print(game)
-      error += 1
-
-  print(error)
-
-  # b = [
-  #   [2, 6, 4, 3, 8, 7, 1, 9, 5], 
-  #   [7, 5, 3, 1, 9, 6, 8, 4, 2], 
-  #   [9, 8, 1, 5, 4, 2, 7, 3, 6], 
-  #   [8, 1, 5, 9, 2, 3, 6, 7, 4], 
-  #   [3, 7, 9, 6, 1, 4, 5, 2, 0], 
-  #   [0, 0, 0, 8, 0, 0, 9, 0, 0], 
-  #   [1, 0, 0, 0, 3, 8, 0, 6, 9], 
-  #   [6, 0, 8, 7, 5, 9, 0, 1, 0], 
-  #   [0, 9, 0, 0, 6, 1, 0, 8, 7]
-  # ]
-  # print(s.solveBoard(b))
+s = Sudoku()
+game = s.generateGame(40)
+print(s.solveBoard(game))
