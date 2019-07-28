@@ -67,18 +67,6 @@ class Board:
 
     return relatedPoints
 
-
-
-
-class Sudoku (Board):
-  """ generate and solve sudoku game """
-
-  ## TODO: put related points in the possibleMap, to save processgit
-
-  ## TODO: split to classes
-  
-  ## TODO: add Comments
-
   def getBlankPoints(self, board):
     """getBlankPoints(board) --> get blank points form a board
     
@@ -90,9 +78,21 @@ class Sudoku (Board):
     blanks = []
     for row in range(self.numRows):
       for clm in range(self.numClms):
-        if not board[row][clm]:
+        if board[row][clm] == self.blank:
           blanks.append( (row, clm) )
     return blanks
+
+
+
+
+class Sudoku (Board):
+  """ generate and solve sudoku game """
+
+  ## TODO: put related points in the possibleMap, to save processgit
+
+  ## TODO: split to classes
+  
+  ## TODO: add Comments
 
   def getRemainingChoices(self, board, point):
     choices = list(range(1, self.numRows + 1))
